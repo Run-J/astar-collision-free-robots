@@ -7,6 +7,25 @@ import matplotlib.pyplot as plt
 grid_size = 10  # 网格大小 / grid size
 
 
+# ---------------------- 设置障碍物 Set Obstacles ----------------------
+
+# 无障碍物 / Without the obstacles
+# obstacles = set()
+
+# 手动设置固定障碍物 / Manually defined static obstacles
+# obstacles = set([
+#     (3, 3), (3, 4), (4, 3), (6, 6), (6, 7), (7, 6)  # 可自由添加或修改 / Can customize this
+# ])
+
+# 添加随机障碍物（可选，默认注释）/ Optional: Random obstacles (commented by default)
+obstacles = set()
+num_random_obstacles = 15
+while len(obstacles) < num_random_obstacles:
+    x = random.randint(0, grid_size - 1)
+    y = random.randint(0, grid_size - 1)
+    obstacles.add((x, y))
+
+
 # ---------------------- 设置机器人的起点终点以及路径 Set the robot's start point, end point and path ----------------------
 
 # 随机生成机器人 1 的 起点 和 终点 / Uncomment the random start and end points of robot 1
@@ -25,10 +44,10 @@ grid_size = 10  # 网格大小 / grid size
 
 
 # 手动指定起点终点 / Manually specify the start and end points
-start1 = (1, 5)
-goal1 = (9, 5)
-start2 = (5, 1)
-goal2 = (5, 9)
+start1 = (0, 0)
+goal1 = (9, 9)
+start2 = (0, 9)
+goal2 = (9, 0)
 
 
 
@@ -39,13 +58,16 @@ goal2 = (5, 9)
 
 # A* 算过的路径 / Paths calculated by A*
 # Robot 1 先规划路径 / Robot 1 plans first
-path1 = a_star(start1, goal1, grid_size)
+path1 = a_star(start1, goal1, grid_size, obstacles)
+if not path1:
+    print("Robot 1 找不到路径！Robot 1 could not find a valid path.")
+    exit()
 
 # 构建 Robot1 的时间路径占用表；Robot 1 的路径用于动态避障 / used as dynamic obstacle for Robot 2
 dynamic_obstacles = {t: pos for t, pos in enumerate(path1)}
 
 # Robot 2 规划时，避开 Robot1 和 Robot 2 在同一帧同时会所在位置 以及 交换位置的情况
-path2 = a_star(start2, goal2, grid_size, dynamic_obstacles=dynamic_obstacles)
+path2 = a_star(start2, goal2, grid_size, obstacles, dynamic_obstacles=dynamic_obstacles)
 if not path2:
     print("Robot 2 找不到路径！Robot 2 could not find a valid path.")
     exit()
@@ -64,6 +86,11 @@ def draw_frame(pos1, pos2, path1, path2, start1, goal1, start2, goal2, frame_idx
 
     plt.xticks(range(0, grid_size + 1))  # X轴刻度：0 到 grid_size（包含 grid_size）/ X-axis scale: 0 to grid_size (inclusive)
     plt.yticks(range(0, grid_size + 1))  # Y轴刻度：0 到 grid_size（包含 grid_size）/ Y-axis scale: 0 to grid_size (inclusive)
+
+
+    # 绘制障碍物 / Draw obstacles
+    for obs in obstacles:
+        plt.plot(obs[0], obs[1], 'ks', markersize=15, label='Obstacle' if frame_idx == 0 else "")
 
 
     # 起点终点标记 / Start and goal markers
