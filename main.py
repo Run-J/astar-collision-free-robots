@@ -22,10 +22,10 @@ grid_size = 10 # 网格图大小
 #         break
 
 # 指定起点终点
-start1 = (1, 9)
-goal1 = (9, 1)
-start2 = (9, 1)
-goal2 = (1, 9)
+start1 = (1, 5)
+goal1 = (9, 5)
+start2 = (5, 1)
+goal2 = (5, 9)
 
 
 
@@ -63,28 +63,32 @@ def draw_frame(pos1, pos2, path1, path2, start1, goal1, start2, goal2, frame_idx
 
 
     # 标出起点和终点
-    plt.plot(start1[0], start1[1], 'bs', markersize=10, label='Start 1')  # 蓝色方块表示起点1
-    plt.plot(goal1[0], goal1[1], 'b*', markersize=15, label='Goal 1')     # 蓝色星号表示终点1
+    # Robot 1 起点终点
+    plt.plot(start1[0], start1[1], marker='s', color='red', markersize=10, label='Start 1')
+    plt.plot(goal1[0], goal1[1], marker='*', color='red', markersize=13, label='Goal 1')
 
-    plt.plot(start2[0], start2[1], 'gs', markersize=10, label='Start 2')  # 绿色方块表示起点2
-    plt.plot(goal2[0], goal2[1], 'g*', markersize=15, label='Goal 2')     # 绿色星号表示终点2
+    # Robot 2 起点终点
+    plt.plot(start2[0], start2[1], marker='s', color='green', markersize=10, label='Start 2')
+    plt.plot(goal2[0], goal2[1], marker='*', color='green', markersize=13, label='Goal 2')
 
 
 
     # 显示路径点
+    # 路径（虚线）
     if path1:
         x1, y1 = zip(*path1)
-        plt.plot(x1, y1, 'b', label='Path1')
+        plt.plot(x1, y1, color='red', linewidth=2, linestyle='--', label='Path1')
     if path2:
         x2, y2 = zip(*path2)
-        plt.plot(x2, y2, 'g', label='Path2')
+        plt.plot(x2, y2, color='green', linewidth=2, linestyle='--', label='Path2')
 
-    # 当前机器人位置
-    plt.plot(pos1[0], pos1[1], 'ro', markersize=12, label='Robot 1')
-    plt.plot(pos2[0], pos2[1], 'mo', markersize=12, label='Robot 2')
 
-    plt.legend()
-    plt.pause(1)  # 暂停半秒显示这一帧
+    # 当前机器人位置（颜色与路径统一）
+    plt.plot(pos1[0], pos1[1], marker='o', color='red', markersize=13, label='Robot 1')
+    plt.plot(pos2[0], pos2[1], marker='o', color='green', markersize=13, label='Robot 2')
+
+    plt.legend(loc='upper right', fontsize=8)
+    plt.pause(0.5) # 暂停半秒显示这一帧
 
 
 
