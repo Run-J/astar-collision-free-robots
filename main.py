@@ -8,18 +8,24 @@ grid_size = 10 # 网格图大小
 
 
 # 随机生成机器人 1 的 起点 和 终点
-while True:
-    start1 = ( random.randint(0, 9), random.randint(0, 9) )
-    goal1 = ( random.randint(0, 9), random.randint(0, 9) )
-    if start1 != goal1: 
-        break
+# while True:
+#     start1 = ( random.randint(0, 9), random.randint(0, 9) )
+#     goal1 = ( random.randint(0, 9), random.randint(0, 9) )
+#     if start1 != goal1: 
+#         break
 
 # 随机生成机器人 2 的 起点 和 终点
-while True:
-    start2 = ( random.randint(0, 9), random.randint(0, 9) )
-    goal2 = ( random.randint(0, 9), random.randint(0, 9) )
-    if start2 != goal2: 
-        break
+# while True:
+#     start2 = ( random.randint(0, 9), random.randint(0, 9) )
+#     goal2 = ( random.randint(0, 9), random.randint(0, 9) )
+#     if start2 != goal2: 
+#         break
+
+# 指定起点终点
+start1 = (1, 9)
+goal1 = (9, 1)
+start2 = (9, 1)
+goal2 = (1, 9)
 
 
 
