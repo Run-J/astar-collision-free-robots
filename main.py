@@ -35,15 +35,24 @@ path2 = a_star(start2, goal2, grid_size)
 
 
 # 画一帧
-def draw_frame(pos1, pos2, path1, path2, frame_idx):
+def draw_frame(pos1, pos2, path1, path2, start1, goal1, start2, goal2, frame_idx):
     plt.clf()  # 清除上一次画面
     plt.title(f"Frame {frame_idx}")
     plt.xlim(0, 10)
     plt.ylim(0, 10)
     plt.grid(True)
 
-    plt.xticks(range(0, 11))  # X轴刻度：0 到 10（包含 10）
-    plt.yticks(range(0, 11))  # Y轴刻度：0 到 10（包含 10）
+    plt.xticks(range(0, grid_size + 1))  # X轴刻度：0 到 10（包含 10）
+    plt.yticks(range(0, grid_size + 1))  # Y轴刻度：0 到 10（包含 10）
+
+
+    # 标出起点和终点
+    plt.plot(start1[0], start1[1], 'bs', markersize=10, label='Start 1')  # 蓝色方块表示起点1
+    plt.plot(goal1[0], goal1[1], 'b*', markersize=15, label='Goal 1')     # 蓝色星号表示终点1
+
+    plt.plot(start2[0], start2[1], 'gs', markersize=10, label='Start 2')  # 绿色方块表示起点2
+    plt.plot(goal2[0], goal2[1], 'g*', markersize=15, label='Goal 2')     # 绿色星号表示终点2
+
 
 
     # 显示路径点
@@ -72,7 +81,7 @@ plt.ion()
 for i in range(max(len(path1), len(path2))):
     pos1 = path1[i] if i < len(path1) else path1[-1] # 如果还没走完路径：就用第 i 步；如果路径走完了：就一直待在最后一个位置（path1[-1] 是终点）
     pos2 = path2[i] if i < len(path2) else path2[-1]
-    draw_frame(pos1, pos2, path1, path2, i)
+    draw_frame(pos1, pos2, path1, path2, start1, goal1, start2, goal2, i)
 
 
 plt.ioff()
