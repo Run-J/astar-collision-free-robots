@@ -33,9 +33,19 @@ goal2 = (1, 9)
 # path1 = [(0, 0), (0, 1), (1, 1), (2, 1), (3, 2), (4, 3)]
 # path2 = [(9, 9), (8, 9), (8, 8), (7, 7), (6, 6), (5, 5)]
 
+
 # A* 算过的路径
+# 先让 Robot 1 规划路径
 path1 = a_star(start1, goal1, grid_size)
-path2 = a_star(start2, goal2, grid_size)
+
+# 构建 Robot1 的时间路径占用表
+dynamic_obstacles = {t: pos for t, pos in enumerate(path1)}
+
+# Robot 2 规划时，避开 Robot1 和 Robot 2 在同一帧同时会所在位置
+path2 = a_star(start2, goal2, grid_size, dynamic_obstacles=dynamic_obstacles)
+if not path2:
+    print("Robot 2 找不到路径！")
+    exit()
 
 
 
@@ -74,7 +84,7 @@ def draw_frame(pos1, pos2, path1, path2, start1, goal1, start2, goal2, frame_idx
     plt.plot(pos2[0], pos2[1], 'mo', markersize=12, label='Robot 2')
 
     plt.legend()
-    plt.pause(0.5)  # 暂停半秒显示这一帧
+    plt.pause(1)  # 暂停半秒显示这一帧
 
 
 

@@ -7,7 +7,7 @@ def heuristic(a, b):
     """估价函数（曼哈顿距离）：A* 中的 h(n)"""
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
-def a_star(start, goal, grid_size=10, obstacles=None):
+def a_star(start, goal, grid_size=10, obstacles=None, dynamic_obstacles=None):
     """
     使用 A* 算法从 start 到 goal 搜索路径
     :param start: 起点坐标 (x, y)
@@ -28,6 +28,7 @@ def a_star(start, goal, grid_size=10, obstacles=None):
 
     while open_set:
         _, current_g, current = heapq.heappop(open_set)
+        t = current_g + 1 # 下一步的时间点（帧数）
 
         if current == goal:
             # 找到终点，回溯路径
@@ -41,11 +42,22 @@ def a_star(start, goal, grid_size=10, obstacles=None):
         for dx, dy in moves:
             neighbor = (current[0] + dx, current[1] + dy)
 
-            # 检查边界 & 障碍物
+            # 检查边界 & 障碍物 & 和 Path 1 在相同帧的位置
             if not (0 <= neighbor[0] < grid_size and 0 <= neighbor[1] < grid_size):
                 continue
+            # 固定避让其它障碍
             if neighbor in obstacles:
                 continue
+            # 动态障碍（同位置 + 换位冲突）
+            if dynamic_obstacles:
+                # 同一位置冲突
+                if t in dynamic_obstacles and neighbor == dynamic_obstacles[t]:
+                    continue
+                # 面对面冲突
+                if t in dynamic_obstacles and t-1 in dynamic_obstacles:
+                    if neighbor == dynamic_obstacles[t-1] and current == dynamic_obstacles[t]:
+                        continue
+
 
             tentative_g = current_g + 1  # 假设每一步代价都是1
 
