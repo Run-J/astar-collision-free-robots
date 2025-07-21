@@ -19,58 +19,64 @@ The following test scenarios demonstrate typical planning and collision-avoidanc
 | 🟦 一前一后<br>**One Following Another** | Robot 2 紧跟 Robot 1 后方，测试“跟车”避障。<br>Robot 2 follows Robot 1; tests trailing safety. | ![Image](https://github.com/user-attachments/assets/64e33f4b-dde9-43a4-992f-05410a3003b3) |
 | 🟪 绕过障碍<br>**Obstacle Avoidance** | 地图中包含静态障碍，测试绕行能力。<br>Static obstacles added; tests replanning and detour logic. | ![Image](https://github.com/user-attachments/assets/3b428328-c562-45ba-95bb-f196e9774d70) |
 
+---
 
-🔧 技术实现 / Technical Highlights
-✅ 核心算法 / Core Algorithm
-A* 路径规划算法（启发式使用曼哈顿距离）
-A* pathfinding algorithm with a Manhattan distance heuristic
+## 🔧 技术实现 / Technical Highlights
 
-每个机器人独立规划路径，Robot 2 需考虑 Robot 1 的动态路径占用
-Each robot plans its path independently; Robot 2 treats Robot 1’s path as time-dependent dynamic obstacles
+### ✅ 核心算法 / Core Algorithm
 
-避免以下两类冲突 / Avoids the following types of conflicts:
+- A* 路径规划算法（启发式使用曼哈顿距离）  
+  A* pathfinding algorithm with a Manhattan distance heuristic
 
-同位置冲突（position conflict）：两个机器人在同一帧占据同一格
-Position conflict – both robots occupy the same cell at the same timestep
+- 每个机器人独立规划路径，Robot 2 需考虑 Robot 1 的动态路径占用  
+  Each robot plans its path independently; Robot 2 treats Robot 1’s path as dynamic path occupancy (time-dependent obstacles)
 
-换位冲突（head-on swap）：机器人在连续帧中互换位置
-Head-on swap – robots swap positions between two consecutive timesteps
+- 避免以下两类冲突 / Avoids the following types of conflicts:  
+  - **同位置冲突（Position Conflict）**：两个机器人在同一帧占据同一格  
+    **Position Conflict** – both robots occupy the same cell at the same timestep  
+  - **换位冲突（Head-on Swap）**：机器人在连续帧中互换位置  
+    **Head-on Swap** – robots swap positions between two consecutive timesteps
 
-📊 可视化仿真 / Visualization
-使用 matplotlib 动态绘制网格动画
-Animated grid simulation using matplotlib
+---
 
-每一帧动态更新机器人位置与路径轨迹
-Each frame updates robot positions and traversed paths
+### 📊 可视化仿真 / Visualization
 
-支持如下可视元素 / Visual elements supported:
+- 使用 `matplotlib` 动态绘制网格动画  
+  Animated grid simulation using `matplotlib`
 
-✅ 静态障碍（可手动/随机设置）
-✅ Static obstacles (manually or randomly generated)
+- 每一帧动态更新机器人位置与路径轨迹  
+  Each frame updates robot positions and traversed paths
 
-✅ 动态冲突检测与避让
-✅ Dynamic collision detection and avoidance
+- 支持如下可视元素 / Visual elements supported:  
+  - ✅ 静态障碍（可手动/随机设置）  
+    ✅ Static obstacles (manually or randomly generated)  
+  - ✅ 动态冲突检测与避让  
+    ✅ Dynamic collision detection and avoidance  
+  - ✅ 不同颜色、起点/终点标识、路径虚线展示  
+    ✅ Distinct colors, markers for start/goal, and dashed path visualization
 
-✅ 不同颜色、起点/终点标识、路径虚线展示
-✅ Distinct colors, markers for start/goal, and dashed path visualization
+---
 
-⚙️ 功能亮点 / Key Features
-✅ 支持 两个机器人无碰撞路径规划
-✅ Supports collision-free path planning for two robots
+## ⚙️ 功能亮点 / Key Features
 
-✅ A* 搜索结合时间维度冲突检测
-✅ A* search extended with temporal conflict checking
+- ✅ 支持两个机器人无碰撞路径规划  
+  ✅ Supports collision-free path planning for two robots
 
-✅ 可自定义机器人起点、终点与障碍配置
-✅ Fully customizable start/end points and obstacles
+- ✅ A* 搜索结合时间维度冲突检测  
+  ✅ A* search extended with temporal conflict checking
 
-✅ 每一步帧动画展示运动过程，便于观察路径策略
-✅ Frame-by-frame animation to visualize motion strategy
+- ✅ 可自定义机器人起点、终点与障碍配置  
+  ✅ Fully customizable start/end points and obstacles
 
-✅ 适合研究双智能体规划、多智能体避障演示
-✅ Ideal for dual-agent pathfinding and multi-agent planning education/demo
+- ✅ 每一步帧动画展示运动过程，便于观察路径策略  
+  ✅ Frame-by-frame animation to visualize motion strategy
 
-📁 项目结构 / Project Structure
+- ✅ 适合研究双智能体规划、多智能体避障演示  
+  ✅ Ideal for dual-agent pathfinding and multi-agent planning education/demo
+
+---
+
+## 📁 项目结构 / Project Structure
 ```
 astar-collision-free-robots/
 │
